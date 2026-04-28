@@ -1,10 +1,10 @@
 {
     "domain": "librelink",
     "name": "LibreLink",
-    "codeowners": ["@gillesvs"],
+    "codeowners": ["@gillesvs", "@roteRakete66"],
     "config_flow": true,
     "dependencies": [],
-    "documentation": "https://github.com/gillesvs/librelink",
+    "documentation": "https://github.com/roteRakete66/librelink",
     "iot_class": "cloud_polling",
     "issue_tracker": "https://github.com/gillesvs/librelink/issues",
     "version": "1.2.3",
