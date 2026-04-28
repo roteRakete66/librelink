@@ -2,10 +2,10 @@
 
 from __future__ import annotations
 
+import socket
 from dataclasses import dataclass
 from datetime import UTC, datetime, timedelta
 from hashlib import sha256
-import socket
 
 import aiohttp
 
@@ -15,8 +15,8 @@ from .const import (
     LOGGER,
     LOGIN_URL,
     PRODUCT,
-    VERSION_APP,
 )
+from .helpers import get_latest_app_version
 
 
 @dataclass
@@ -85,7 +85,7 @@ class Patient:
                 low=data["targetLow"],
             ),
             device=LibreLinkDevice(
-                serial_number=f'{data["sensor"]["pt"]}{data['sensor']['sn']}',
+                serial_number=f"{data['sensor']['pt']}{data['sensor']['sn']}",
                 application_timestamp=datetime.fromtimestamp(
                     data["sensor"]["a"], tz=UTC
                 ),
@@ -165,12 +165,12 @@ class LibreLinkAPI:
         """Get information from the API."""
         headers = {
             "product": PRODUCT,
-            "version": VERSION_APP,
+            "version": get_latest_app_version(),
         }
         if authenticated:
             headers |= {
-                'Authorization': f'Bearer {self._token}',
-                'Account-Id': sha256(self._account_id.encode()).hexdigest()
+                "Authorization": f"Bearer {self._token}",
+                "Account-Id": sha256(self._account_id.encode()).hexdigest(),
             }
 
         call_method = self._session.post if data else self._session.get
