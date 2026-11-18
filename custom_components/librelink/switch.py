@@ -7,6 +7,7 @@ from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import CONF_USERNAME
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
+from homeassistant.helpers.restore_state import RestoreEntity
 
 from .const import CONF_PATIENT_ID, DOMAIN
 from .coordinator import LibreLinkDataUpdateCoordinator
@@ -28,7 +29,7 @@ async def async_setup_entry(
     async_add_entities([LibreLinkPlusSwitch(coordinator, pid)])
 
 
-class LibreLinkPlusSwitch(LibreLinkSensorBase, SwitchEntity):
+class LibreLinkPlusSwitch(LibreLinkSensorBase, SwitchEntity, RestoreEntity):
     """Switch to add 1 day to expiration timestamp."""
 
     def __init__(self, coordinator: LibreLinkDataUpdateCoordinator, pid: str) -> None:
@@ -36,6 +37,17 @@ class LibreLinkPlusSwitch(LibreLinkSensorBase, SwitchEntity):
         super().__init__(coordinator, pid)
         self._attr_name = "Is Plus"
         self._attr_icon = "mdi:alarm-plus"
+
+    async def async_added_to_hass(self) -> None:
+        """Run when entity about to be added to hass."""
+        await super().async_added_to_hass()
+
+        if (last_state := await self.async_get_last_state()) is not None:
+            is_on = last_state.state == "on"
+            self.coordinator.is_plus_map[self.id] = is_on
+        else:
+            if self.id not in self.coordinator.is_plus_map:
+                self.coordinator.is_plus_map[self.id] = False
 
     @property
     def is_on(self) -> bool:
