@@ -1,28 +1,28 @@
-[![Maintenance](https://img.shields.io/badge/Maintained%3F-no-red.svg)](https://GitHub.com/Naereen/StrapDown.js/graphs/commit-activity)
+[![Maintenance](https://img.shields.io/badge/Maintained%3F-yes%20(Fork)-green.svg)](https://github.com/roteRakete66/librelink/commits/main)
 [![hacs_badge](https://img.shields.io/badge/HACS-Custom-41BDF5.svg)](https://github.com/hacs/integration)
 [![Validate with Hassfest](https://github.com/gillesvs/librelink/actions/workflows/hassfest.yaml/badge.svg)](https://github.com/gillesvs/librelink/actions/workflows/hassfest.yaml)
 [![Validate with HACS](https://github.com/gillesvs/librelink/actions/workflows/validate.yaml/badge.svg)](https://github.com/gillesvs/librelink/actions/workflows/validate.yaml)
 
-# LibrelinkUp Integration for Home Assistant 
+# LibrelinkUp Integration for Home Assistant (Maintained Fork)
 
+> **ℹ️ About this Fork**  
+> This is an actively used and enhanced fork of the original [gillesvs/librelink](https://github.com/gillesvs/librelink) integration (which is no longer maintained).  
+> 
+> **Key Improvements & New Features in this Fork:**
+> - **Dynamic App Version Resolution:** Replaced static/hardcoded app versions with automatic version calculation to prevent API rejections after upstream app updates.
+> - **App Version Diagnostic Sensor:** Added a dedicated `sensor` entity exposing the resolved app version directly in Home Assistant for easy debugging and verification.
+> - **FreeStyle Libre Plus Support (`is_plus` Switch):** Added a `switch` entity to toggle whether a *Libre Plus* sensor is used, automatically adjusting the calculated sensor lifespan (+1 day).
 
 [integration_librelink]: https://github.com/gillesvs/librelink.git
 [buymecoffee]: https://www.buymeacoffee.com/gillesvs
 
 **This integration will set up the following platforms for each patient linked to the librelinkUp account.**
 
-Platform | Description
--- | --
-
-`sensor` | Show info from LibrelinkUp API.
-- Active Sensor (in days) : All information about your sensor. State is number of days since activation.
-- Glucose Measurement (in mg/dL) : Measured value every minute.
-- Glucose Trend : in plain text + icon.
-- Minutes since update (in min) : self explanatory.
-
-`binary_sensor` | to measure high and low.
-- Is High | True of False.
-- Is Low  | True of False.
+| Platform | Description |
+| :--- | :--- |
+| `sensor` | **Show info from LibreLinkUp API & Integration:**<br>• **Active Sensor (in days):** All information about your sensor (state is days since activation, accounting for the *Plus* toggle).<br>• **Glucose Measurement (in mg/dL):** Measured value every minute.<br>• **Glucose Trend:** Plain text + icon.<br>• **Minutes since update (in min):** Time elapsed since last reading.<br>• **App Version *(New)*:** Displays the dynamically calculated LibreLinkUp app version for verification. |
+| `binary_sensor` | **Measure high and low thresholds:**<br>• **Is High:** `True` or `False`<br>• **Is Low:** `True` or `False` |
+| `switch` | **Configuration toggles *(New)*:**<br>• **Is Plus:** Enables *FreeStyle Libre Plus* mode, extending the expected sensor runtime by 1 day. |
 
 ## Illustration with a custom:mini-graph-card
 
