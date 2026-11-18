@@ -35,7 +35,7 @@ class LibreLinkPlusSwitch(LibreLinkSensorBase, SwitchEntity):
         """Initialize the switch."""
         super().__init__(coordinator, pid)
         self._attr_name = "Is Plus"
-        self._attr_icon = "mdi:plus-box-outline"
+        self._attr_icon = "mdi:alarm-plus"
 
     @property
     def is_on(self) -> bool:
@@ -46,7 +46,6 @@ class LibreLinkPlusSwitch(LibreLinkSensorBase, SwitchEntity):
         """Turn the switch on."""
         self.coordinator.is_plus_map[self.id] = True
         self.async_write_ha_state()
-        # Aktualisiert die Sensoren im gleichen Gerät sofort
         self.coordinator.async_set_updated_data(self.coordinator.data)
 
     async def async_turn_off(self, **kwargs) -> None:
