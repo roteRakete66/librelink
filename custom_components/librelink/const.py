@@ -3,6 +3,8 @@
 from logging import Logger, getLogger
 from typing import Final
 
+from .helpers import get_latest_app_version
+
 LOGGER: Logger = getLogger(__package__)
 
 NAME: Final = "LibreLink"
@@ -25,7 +27,7 @@ BASE_URL_LIST: Final = {
     "United States": "https://api-us.libreview.io",
 }
 PRODUCT: Final = "llu.android"
-VERSION_APP: Final = "4.16.0"
+APP_VERSION: Final = get_latest_app_version()
 GLUCOSE_VALUE_ICON: Final = "mdi:diabetes"
 GLUCOSE_TREND_ICON: Final = {
     1: "mdi:arrow-down-bold-box",

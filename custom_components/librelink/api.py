@@ -11,12 +11,12 @@ import aiohttp
 
 from .const import (
     API_TIME_OUT_SECONDS,
+    APP_VERSION,
     CONNECTION_URL,
     LOGGER,
     LOGIN_URL,
     PRODUCT,
 )
-from .helpers import get_latest_app_version
 
 
 @dataclass
@@ -108,7 +108,7 @@ class LibreLinkAPIAuthenticationError(LibreLinkAPIError):
 class LibreLinkAPIConnectionError(LibreLinkAPIError):
     """Exception raised when the API connection fails."""
 
-    def __init__(self, message: str = None) -> None:
+    def __init__(self, message: str | None = None) -> None:
         """Initialize the API error."""
         super().__init__(message or "Connection error")
 
@@ -165,7 +165,7 @@ class LibreLinkAPI:
         """Get information from the API."""
         headers = {
             "product": PRODUCT,
-            "version": get_latest_app_version(),
+            "version": APP_VERSION,
         }
         if authenticated:
             headers |= {

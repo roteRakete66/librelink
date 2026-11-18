@@ -15,6 +15,7 @@ from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 
 from .const import (
+    APP_VERSION,
     ATTRIBUTION,
     CONF_PATIENT_ID,
     DOMAIN,
@@ -52,6 +53,7 @@ async def async_setup_entry(
         ApplicationTimestampSensor(coordinator, pid),
         ExpirationTimestampSensor(coordinator, pid),
         LastMeasurementTimestampSensor(coordinator, pid),
+        LibreLinkAppVersionSensor(coordinator, pid),
     ]
 
     async_add_entities(sensors)
@@ -232,3 +234,22 @@ class LastMeasurementTimestampSensor(TimestampSensor):
     def native_value(self):
         """Return the native value of the sensor."""
         return self._data.measurement.timestamp
+
+
+class LibreLinkAppVersionSensor(LibreLinkSensor):
+    """Sensor App-Version."""
+
+    @property
+    def name(self):
+        """Return the name of the sensor."""
+        return "App Version"
+
+    @property
+    def native_value(self):
+        """Return the native value of the sensor."""
+        return APP_VERSION
+
+    @property
+    def icon(self):
+        """Return the icon for the frontend."""
+        return "mdi:information-outline"
