@@ -11,7 +11,7 @@ from .api import LibreLinkAPI
 from .const import CONF_PATIENT_ID, DOMAIN, LOGGER
 from .coordinator import LibreLinkDataUpdateCoordinator
 
-PLATFORMS: list[Platform] = [Platform.BINARY_SENSOR, Platform.SENSOR]
+PLATFORMS: list[Platform] = [Platform.BINARY_SENSOR, Platform.SENSOR, Platform.SWITCH]
 
 
 async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:

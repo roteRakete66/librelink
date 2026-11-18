@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+from datetime import timedelta
+
 from homeassistant.components.sensor import (
     SensorDeviceClass,
     SensorEntity,
@@ -219,7 +221,10 @@ class ExpirationTimestampSensor(ApplicationTimestampSensor):
     @property
     def native_value(self):
         """Return the native value of the sensor."""
-        return self._data.device.expiration_timestamp
+        time_stamp = self._data.device.expiration_timestamp
+        if time_stamp and self.coordinator.is_plus_map.get(self.id, False):
+            return time_stamp + timedelta(days=1)
+        return time_stamp
 
 
 class LastMeasurementTimestampSensor(TimestampSensor):

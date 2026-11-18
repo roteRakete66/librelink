@@ -24,6 +24,8 @@ class LibreLinkDataUpdateCoordinator(DataUpdateCoordinator[dict[str, Patient]]):
         self.api: LibreLinkAPI = api
         self._tracked_patients: set[str] = {patient_id}
 
+        self.is_plus_map: dict[str, bool] = {patient_id: False}
+
         super().__init__(
             hass=hass,
             logger=LOGGER,
@@ -34,10 +36,13 @@ class LibreLinkDataUpdateCoordinator(DataUpdateCoordinator[dict[str, Patient]]):
     def register_patient(self, patient_id: str) -> None:
         """Register a new patient to track."""
         self._tracked_patients.add(patient_id)
+        if patient_id not in self.is_plus_map:
+            self.is_plus_map[patient_id] = False
 
     def unregister_patient(self, patient_id: str) -> None:
         """Unregister a patient to track."""
         self._tracked_patients.remove(patient_id)
+        self.is_plus_map.pop(patient_id, None)
 
     @property
     def tracked_patients(self) -> int:
